@@ -1,0 +1,13 @@
+{
+  "name": "cipher-city",
+  "private": true,
+  "type": "module",
+  "description": "Cipher City: cybersecurity lessons for grades 6 to 8, taught by writing code.",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "start": "node tools/serve.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "test:browser": "node e2e/walk.mjs",
+    "scope": "node tools/scope.mjs"
+  }
+}
