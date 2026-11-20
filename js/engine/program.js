@@ -88,7 +88,7 @@ export function judge(step, code, result) {
     if (t.avoids) return { label, ok: !src.includes(t.avoids), got: '' };
     return { label, ok: false, got: '' };
   });
-  if (/___/.test(src)) return { passed: false, tests, out, error: error || { name: 'Blank', message: 'There is still a ___ blank to fill in.', stack: '' } };
+  if (/___/.test(src)) return { passed: false, tests: tests.map((t) => ({ ...t, ok: false, got: '' })), out, error: { name: 'Blank', message: 'There is still a ___ blank to fill in.', stack: '', line: 1 + src.split('\n').findIndex((l) => l.includes('___')) } };
   return { passed: !error && tests.length > 0 && tests.every((t) => t.ok), tests, out, error };
 }
 
