@@ -1,6 +1,8 @@
 // Turns a code step and a student's code into one program, and judges what the program reports.
 // No page code here: the browser's sandbox, the tests and the server all use exactly this.
 //
+// Anything a test expression prints is not shown: the output box holds only what the student's own run printed.
+//
 // The program has three parts: a small prelude (say() and the result box), the step's hidden setup
 // plus the student's code, and one function for each test. It never decides whether the student
 // passed. It only reports what was printed and what each test expression gave; judge() compares
@@ -12,10 +14,10 @@ export const MAX_OUT = 120;
 // One line, so a line number in an error is easy to map back to the student's code.
 const PRELUDE = 'const __cc=(function(){var out=[],J=JSON.stringify,S=String,F=Object.freeze,cut=function(t){return t.length>300?t.slice(0,300)+"...":t};'
   + 'function show(v){if(typeof v==="string")return v;if(typeof v==="function")return "[function]";if(v===undefined)return "undefined";try{var t=J(v);return t===undefined?S(v):t}catch(e){return S(v)}}'
-  + 'function say(){var t="";for(var i=0;i<arguments.length;i++)t+=(i?" ":"")+show(arguments[i]);if(out.length<' + MAX_OUT + ')out[out.length]=cut(t)}'
-  + 'var got=[],err=null;'
+  + 'function say(){var t="";for(var i=0;i<arguments.length;i++)t+=(i?" ":"")+show(arguments[i]);if(!quiet&&out.length<' + MAX_OUT + ')out[out.length]=cut(t)}'
+  + 'var got=[],err=null,quiet=false;'
   + 'function fail(e){var m=e&&e.message!==undefined?S(e.message):S(e),n=e&&e.name?S(e.name):"Error",k=e&&e.stack?S(e.stack):"";err={name:n,message:cut(m),stack:k.slice(0,600)}}'
-  + 'function tests(list){for(var i=0;i<list.length;i++){try{var v=list[i]();got[i]=v===undefined?{u:1}:typeof v==="function"?{f:1}:{v:v}}catch(e){got[i]={e:cut(S(e&&e.message!==undefined?e.message:e))}}}}'
+  + 'function tests(list){quiet=true;for(var i=0;i<list.length;i++){try{var v=list[i]();got[i]=v===undefined?{u:1}:typeof v==="function"?{f:1}:{v:v}}catch(e){got[i]={e:cut(S(e&&e.message!==undefined?e.message:e))}}}}'
   + 'function finish(){var r;try{r=J({out:out,got:got,error:err})}catch(e){r=J({out:out,got:[],error:{name:"Error",message:"A test gave back something that cannot be checked.",stack:""}})}return r}'
   + 'return F({say:say,fail:fail,tests:tests,finish:finish})})();const say=__cc.say;const console=Object.freeze({log:say,info:say,warn:say,error:say});';
 
