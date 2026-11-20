@@ -1,0 +1,248 @@
+<title>Cybersecurity Course Proposal</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jersey+25&family=Lilita+One&family=Nunito:wght@500;700;800&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: one reading column; decisions first, then the evidence for each, with three live look samples side by side. */
+:root {
+  --bg: #F3F5FA; --panel: #FFFFFF; --ink: #171B28; --soft: #4B5368; --line: #D5DAE6;
+  --green: #0A7A43; --amber: #9A5B00; --pink: #B8246B; --pick: #E6F6EC;
+  --display: 'Lilita One', 'Arial Rounded MT Bold', system-ui, sans-serif;
+  --arcade: 'Jersey 25', 'Courier New', monospace;
+  --body: 'Nunito', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --mono: 'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0F1119; --panel: #181B27; --ink: #E9EEF2; --soft: #A9B2C6; --line: #2C3145;
+  --green: #5CFF8F; --amber: #FFB84D; --pink: #FF7DB5; --pick: #14291D; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #0F1119; --panel: #181B27; --ink: #E9EEF2; --soft: #A9B2C6; --line: #2C3145;
+  --green: #5CFF8F; --amber: #FFB84D; --pink: #FF7DB5; --pick: #14291D; color-scheme: dark }
+
+body { background: var(--bg); color: var(--ink); font: 500 17px/1.6 var(--body);
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 28px 64px; }
+main { max-width: 980px; margin: 0 auto; display: flex; flex-direction: column; gap: 44px; }
+section { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+h1 { font: 400 clamp(2rem, 5vw, 3rem)/1.1 var(--display); margin: 0; text-wrap: balance; }
+h2 { font: 400 1.6rem/1.2 var(--display); margin: 0; text-wrap: balance; }
+h3 { font: 800 1.05rem/1.3 var(--body); margin: 0; }
+p, ul { margin: 0; max-width: 68ch; } ul { padding-left: 1.2em; } li + li { margin-top: 4px; }
+.eyebrow { font: 400 1.25rem/1 var(--arcade); letter-spacing: .06em; color: var(--green); text-transform: uppercase; }
+.soft { color: var(--soft); }
+code { font: 400 .9em var(--mono); }
+
+.decisions { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px; }
+.decision { background: var(--panel); border: 2px solid var(--line); border-radius: 14px; padding: 14px 16px; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.decision b { font: 400 1.15rem/1.2 var(--arcade); letter-spacing: .05em; color: var(--amber); text-transform: uppercase; }
+.decision span { font-weight: 800; }
+.decision small { color: var(--soft); font-size: .9rem; line-height: 1.45; }
+
+.names { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 12px; }
+.name { background: var(--panel); border: 2px solid var(--line); border-radius: 14px; padding: 16px; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.name.pick { border-color: var(--green); background: var(--pick); }
+.name h3 { font: 400 1.9rem/1 var(--arcade); letter-spacing: .04em; }
+.name dl { margin: 0; display: grid; gap: 6px; font-size: .95rem; line-height: 1.45; }
+.name dt { font-weight: 800; } .name dd { margin: 0; color: var(--soft); }
+.tag { align-self: flex-start; font: 800 .75rem/1 var(--body); letter-spacing: .06em; text-transform: uppercase; color: var(--green); }
+
+/* The three look samples. Each one carries its own fixed colors on purpose: they show the course's themes, not this page's. */
+.looks { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; }
+.look { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.look > p { font-size: .92rem; line-height: 1.45; color: var(--soft); }
+.mock { border-radius: 18px; padding: 14px; display: flex; flex-direction: column; gap: 12px; background: var(--m-bg); color: var(--m-ink); border: 3px solid var(--m-edge); font: 500 15px/1.5 var(--body); }
+.m-arcade { --m-bg: #12141E; --m-ink: #EEF3F0; --m-edge: #2B3350; --m-card: #1C2032; --m-term: #080A10; --m-code: #7DFFA6; --m-key: #FFC15E; --m-dim: #9AA6BD; --m-btn: #FFC247; --m-btn-ink: #1B1400; --m-btn-shade: #B57B00; --m-btn2: #2A3050; --m-btn2-ink: #EEF3F0; --m-btn2-shade: #151A30; --m-logo: #5CFF8F; --m-pet: #FF6FAE; --m-glow: 0 0 12px rgba(92,255,143,.45); }
+.m-day { --m-bg: #F4F7FC; --m-ink: #171B28; --m-edge: #C9D2E3; --m-card: #FFFFFF; --m-term: #1A1F2E; --m-code: #9DFFBD; --m-key: #FFD08A; --m-dim: #55607A; --m-btn: #FFC247; --m-btn-ink: #1B1400; --m-btn-shade: #B57B00; --m-btn2: #E3E9F5; --m-btn2-ink: #171B28; --m-btn2-shade: #B4BFD6; --m-logo: #0A7A43; --m-pet: #E0458C; --m-glow: none; }
+.m-contrast { --m-bg: #000000; --m-ink: #FFFFFF; --m-edge: #FFFFFF; --m-card: #000000; --m-term: #000000; --m-code: #FFFFFF; --m-key: #FFE600; --m-dim: #FFFFFF; --m-btn: #FFE600; --m-btn-ink: #000000; --m-btn-shade: #FFFFFF; --m-btn2: #000000; --m-btn2-ink: #FFFFFF; --m-btn2-shade: #FFFFFF; --m-logo: #FFE600; --m-pet: #FFE600; --m-glow: none; }
+.m-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.m-logo { font: 400 1.6rem/1 var(--arcade); letter-spacing: .05em; color: var(--m-logo); text-shadow: var(--m-glow); }
+.m-xp { font: 800 .8rem/1 var(--body); background: var(--m-card); border: 2px solid var(--m-edge); border-radius: 999px; padding: 6px 10px; white-space: nowrap; }
+.m-card { background: var(--m-card); border: 2px solid var(--m-edge); border-radius: 14px; padding: 12px; display: flex; gap: 10px; align-items: flex-start; }
+.m-card > div { min-width: 0; }
+.m-card strong { font: 400 1.2rem/1.2 var(--display); display: block; }
+.m-pet { flex: none; width: 46px; height: 46px; border-radius: 14px 14px 18px 18px; background: var(--m-pet); position: relative; border: 3px solid var(--m-ink); }
+.m-pet::before, .m-pet::after { content: ""; position: absolute; top: 13px; width: 8px; height: 11px; border-radius: 50%; background: var(--m-bg); }
+.m-pet::before { left: 9px; } .m-pet::after { right: 9px; }
+.m-term { background: var(--m-term); border: 2px solid var(--m-edge); border-radius: 12px; overflow: hidden; position: relative; }
+.m-arcade .m-term::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: repeating-linear-gradient(to bottom, transparent 0 3px, rgba(255,255,255,.05) 3px 4px); }
+.m-bar { font: 400 1.05rem/1 var(--arcade); letter-spacing: .08em; padding: 6px 10px; color: var(--m-key); border-bottom: 2px solid var(--m-edge); }
+.m-term pre { margin: 0; padding: 10px; font: 400 12.5px/1.6 var(--mono); color: var(--m-code); overflow-x: auto; }
+.m-term pre b { font-weight: 600; color: var(--m-key); }
+.m-btns { display: flex; flex-wrap: wrap; gap: 8px; }
+.m-btn { font: 800 .95rem/1 var(--body); padding: 11px 16px; border-radius: 12px; border: 2px solid var(--m-btn-shade); border-bottom-width: 5px; background: var(--m-btn); color: var(--m-btn-ink); }
+.m-btn.two { background: var(--m-btn2); color: var(--m-btn2-ink); border-color: var(--m-btn2-shade); }
+.m-dim { color: var(--m-dim); font-size: .85rem; }
+
+.tablewrap { overflow-x: auto; border: 2px solid var(--line); border-radius: 14px; background: var(--panel); }
+table { border-collapse: collapse; width: 100%; min-width: 640px; font-size: .95rem; line-height: 1.45; }
+th, td { text-align: left; vertical-align: top; padding: 9px 12px; border-bottom: 1px solid var(--line); }
+tr:last-child td { border-bottom: 0; }
+th { font: 800 .75rem/1.2 var(--body); letter-spacing: .06em; text-transform: uppercase; color: var(--soft); }
+td:first-child { font: 400 1.2rem/1.2 var(--arcade); color: var(--soft); width: 2.2em; }
+td:nth-child(2) { font-weight: 800; width: 24%; }
+td:last-child { font: 400 .8rem/1.5 var(--mono); color: var(--soft); width: 17%; }
+tr.project td:nth-child(2)::after { content: "Project"; display: inline-block; margin-left: 8px; font: 800 .68rem/1 var(--body); letter-spacing: .06em; text-transform: uppercase; color: var(--pink); border: 2px solid var(--pink); border-radius: 999px; padding: 3px 7px; vertical-align: 2px; }
+.grade h3 { font: 400 1.35rem/1.2 var(--display); }
+.grade { display: flex; flex-direction: column; gap: 8px; }
+</style>
+
+<main>
+  <section>
+    <div class="eyebrow">Show, then build</div>
+    <h1>A cybersecurity course for grades 6 to 8</h1>
+    <p>I read Ready4AI, Packet Express, Pixel Trail and Maker Lab before writing this. Nothing is built yet. Four things need your yes or a change, and then I build without stopping to ask about details.</p>
+    <div class="decisions">
+      <div class="decision"><b>1. Where it lives</b><span>On Ready4AI, as one course with three grades</span><small>Not a separate site.</small></div>
+      <div class="decision"><b>2. Language</b><span>JavaScript in all three grades</span><small>Grade 6 finishes code, grade 7 writes short functions, grade 8 writes and tests whole ones.</small></div>
+      <div class="decision"><b>3. Name and game</b><span>Cipher City</span><small>Two other options below.</small></div>
+      <div class="decision"><b>4. The 30 lessons</b><span>Outline below</span><small>Every lesson has code. Seven are projects.</small></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow">Decision 1</div>
+    <h2>Build it on Ready4AI</h2>
+    <p>Ready4AI already has the hard, risky parts, and they are tested: teacher sign-up, class codes and passcodes, each school's data kept apart by the database, the daily clean-up, export and delete, the rule that stops pages contacting other sites, hosting on Render, and the privacy paperwork. A separate site would mean writing and testing all of that a second time, and keeping two copies in step for ever. A teacher would also need a second account.</p>
+    <p>On Ready4AI a course is a folder of pages plus one server module. Packet Express is already laid out that way, so this course copies its shape.</p>
+    <ul>
+      <li><b>One course, three grades.</b> A teacher picks the grade when they make a class, as in Packet Express. One name, one game world, one set of teacher pages.</li>
+      <li><b>Where the work happens.</b> The lessons, labs and tests are written in this repository so the course can be run and checked on its own. The Ready4AI side is a small branch that adds the course folder and its server module. I can read Ready4AI from here but not save to it, so I will ask for that access when the course is ready to plug in. Nothing goes to the live site without your say.</li>
+      <li><b>One thing the platform does not have yet.</b> These lessons are checked by running the student's code. Pixel Trail's server only reads code, it does not run it. I will add a locked-down, time-limited runner on the server for this course and write tests that attack it.</li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="eyebrow">Decision 2</div>
+    <h2>JavaScript, with a ramp for sixth graders</h2>
+    <ul>
+      <li>It runs at once on a Chromebook. Python in the browser is a download of several megabytes before the first line runs, on every device.</li>
+      <li>It reuses Pixel Trail's locked-down sandbox and its error explainer, which already turns error messages into sentences a beginner can act on.</li>
+      <li>The server can rerun the same checks, so nothing the browser reports has to be trusted.</li>
+      <li>It matches the Ready4AI plan, which keeps Python for the micro:bit course.</li>
+    </ul>
+    <p><b>The ramp.</b> Grade 6 never starts from an empty editor: students fill gaps, change one value and run it, and pick the right line from three. Grade 7 gets starter code and writes one short function at a time. Grade 8 writes whole functions, writes tests for them, and reads code someone else wrote.</p>
+  </section>
+
+  <section>
+    <div class="eyebrow">Decision 3</div>
+    <h2>Name and game</h2>
+    <p class="soft">A quick web search found no cybersecurity or school product using any of these three names. That is not a trademark clearance; a proper search is still needed before you sell under the name. None uses a name on your avoid list.</p>
+    <div class="names">
+      <div class="name pick"><span class="tag">My pick</span><h3>Cipher City</h3>
+        <dl><dt>Story</dt><dd>A neon city has gone dark. Students are its new security crew.</dd>
+        <dt>Class map</dt><dd>The skyline. Each finished lesson switches on one building, and the whole class lights the city together. Each grade is a district.</dd>
+        <dt>Character</dt><dd>An operator with unlockable visors, jackets and keyboards, plus a collectable sidekick bot for each badge.</dd>
+        <dt>Reward game</dt><dd>Night Shift: bounce bad packets away from the city gate.</dd></dl></div>
+      <div class="name"><h3>Glitch Guard</h3>
+        <dl><dt>Story</dt><dd>You look after an old arcade. Mischievous Glitches keep getting into the machines.</dd>
+        <dt>Class map</dt><dd>The arcade floor. Each lesson powers on one cabinet.</dd>
+        <dt>Character</dt><dd>The Glitches themselves: catch one per lesson and collect the set.</dd>
+        <dt>Reward game</dt><dd>One of the cabinets opens for play.</dd></dl></div>
+      <div class="name"><h3>Patch Crew</h3>
+        <dl><dt>Story</dt><dd>A giant old school computer is full of holes. Your crew patches them.</dd>
+        <dt>Class map</dt><dd>A circuit board that fills in, one chip per lesson.</dd>
+        <dt>Character</dt><dd>A crew of small repair bots you unlock and upgrade.</dd>
+        <dt>Reward game</dt><dd>Bug Hunt: a maze chase through the circuits.</dd></dl></div>
+    </div>
+    <p>I prefer Cipher City because a city gives three districts for three grades and a map the whole class can watch grow on the projector. I looked at Neon Vault too and dropped it: there are many registered game names starting with Neon.</p>
+  </section>
+
+  <section>
+    <div class="eyebrow">The look</div>
+    <h2>Friendly shapes, arcade glow, readable first</h2>
+    <p>The same lesson screen in the three color settings a student can choose. Body text is a plain rounded font in near-white or near-black. The blocky arcade lettering is only for the logo and small labels, and the code font is only for code. Glow and scan lines belong to the arcade setting and switch off with less motion and high contrast. All artwork is original, and the fonts are the ones Ready4AI already serves from its own site.</p>
+    <div class="looks">
+      <div class="look"><h3>Arcade (the default)</h3><div class="mock m-arcade" data-mock></div><p>Off-white text on deep navy, not green on black. Green and amber are for accents and code.</p></div>
+      <div class="look"><h3>Daylight</h3><div class="mock m-day" data-mock></div><p>Your light theme. The code window stays dark so it still feels like a terminal.</p></div>
+      <div class="look"><h3>High contrast</h3><div class="mock m-contrast" data-mock></div><p>Black, white and yellow only. No glow, no scan lines.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow">Decision 4</div>
+    <h2>The 30 lessons</h2>
+    <p>Each grade stands alone, so a school can start in any year. Every lesson follows your fixed arc: mission, build steps, quick check, then turn in with a written reflection. Every lesson has code, and every target is pretend and lives inside the page. Standards are Massachusetts DLCS codes; the lesson pages and the coverage page will quote each one word for word.</p>
+    <p>Packet Express grade 8 already teaches threats, passwords, ciphers, HTTPS, firewalls and ethical hacking by sorting, matching and working a cipher by hand. These lessons do not repeat that. Here students write the program: the checker, the cracker, the rules.</p>
+    <div id="grades" style="display:flex;flex-direction:column;gap:26px"></div>
+  </section>
+
+  <section>
+    <div class="eyebrow">Held in every lesson</div>
+    <h2>Safety rules</h2>
+    <ul>
+      <li>Every target is a pretend one built into the page. No lesson can scan, probe or send anything to a real system, and no real attack tool or working exploit appears.</li>
+      <li>Student code runs in a locked-down frame with no network access. Tests will prove it cannot reach out.</li>
+      <li>Every password box says "Use a made-up password. Never type a real one." No real personal details in any example.</li>
+      <li>Permission, the law and reporting what you find come up in every lesson's mission and reflection, with a security job named in each.</li>
+      <li>Phishing, tricks and unkind messages are written so the person who was targeted is never blamed. Those lesson plans carry a teacher note on what to do if a student tells you something happened to them.</li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="eyebrow">Where things stand</div>
+    <h2>Done and not done</h2>
+    <ul>
+      <li><b>Done:</b> read the four repositories, the hosting and compliance notes, and Packet Express's lessons and tests. Wrote this proposal.</li>
+      <li><b>Not done:</b> no lesson, lab, server code or test exists yet. The look above is a sketch on this page, not the app.</li>
+      <li><b>Not checked:</b> the three names against the trademark register.</li>
+    </ul>
+  </section>
+</main>
+
+<script>
+const mock = `
+  <div class="m-top"><span class="m-logo">CIPHER CITY</span><span class="m-xp">Level 3 · 240 XP</span></div>
+  <div class="m-card"><span class="m-pet" aria-hidden="true"></span><div><strong>Guess the PIN</strong>Change one number so the loop tries every PIN on the pretend locker.</div></div>
+  <div class="m-term"><div class="m-bar">LOCKER.JS</div><pre><b>for</b> (<b>let</b> pin = 0; pin &lt; <b>100</b>; pin++) {
+  <b>if</b> (locker.open(pin)) {
+    say("Opened with " + pin);
+  }
+}</pre></div>
+  <div class="m-btns"><span class="m-btn">Run it</span><span class="m-btn two">I'm stuck</span></div>
+  <div class="m-dim">This locker is pretend. Never type a real password.</div>`;
+document.querySelectorAll('[data-mock]').forEach((el) => { el.innerHTML = mock; });
+
+// [title, what students build, standards, isProject]
+const GRADES = [
+  { name: 'Grade 6: Lock It Down', about: 'Keep yourself safe. Students finish and change code that is already started.', lessons: [
+    ['Welcome, Agent', 'Run a first program that prints an agent badge with a made-up code name. Sort actions into "with permission" and "without".', 'CAS.b.8, CAS.b.6'],
+    ['What to Keep Private', 'Finish a "share or keep?" program that labels facts about a made-up student.', 'CAS.a.3, CT.b.1'],
+    ['Guess the PIN', 'Change a loop so it tries every PIN on a pretend locker. Count the guesses for 2, 3 and 4 digits and see why length matters.', 'CAS.a.1, CT.b.2'],
+    ['Password Strength Checker', 'Fill the gaps in a checker that scores made-up passwords for length, variety and being on a common list.', 'CAS.a.1, CT.d.4'],
+    ['Passphrase Machine', 'Build a program that makes random four-word passphrases, test them with last lesson\'s checker, then add a second sign-in step to a pretend login.', 'CAS.a.1, CT.d.3', 1],
+    ['Spot the Fake', 'Sort a pretend inbox, then write three rules that flag the fake messages: a rush, an odd sender, a link that does not match.', 'CAS.a.1, CAS.c.4'],
+    ['Secret Codes', 'Finish a shift-cipher program and use it to send and read messages. See how letters become numbers.', 'CS.c.3, CT.c.1'],
+    ['Bugs, Viruses and Updates', 'Run a pretend virus through a grid of pretend computers, change the code so updates stop it, and finish a scanner that finds the bad file.', 'CAS.a.1, CT.e.2'],
+    ['Your Trail and Your Crew', 'Finish a "pause before you post" checker for a pretend chat, and build the steps for saving and reporting an unkind message.', 'CAS.a.2, CAS.a.3, CAS.a.4'],
+    ['My Safety Kit', 'Join the checker, the fake-spotter and the cipher into one app with a menu, and explain it to someone at home.', 'CT.d.3, CAS.a.1', 1],
+  ] },
+  { name: 'Grade 7: Crack the Case', about: 'How attacks and defences work. Students get starter code and write one short function at a time.', lessons: [
+    ['Think Like a Defender', 'Write a program that ranks the risks to a pretend school store: what must stay secret, stay correct and stay working. Permission and the law.', 'CAS.a.1, CAS.b.8, CT.a.1'],
+    ['Brute Force', 'Write the program that guesses a pretend lock\'s PIN and time it as the PIN grows. Then write the defence: a lockout after three wrong tries.', 'CAS.a.1, CT.b.1, CT.d.1'],
+    ['Word List Attacks', 'Write a guesser that tries a made-up list of common passwords first, then the sign-up rule that refuses them.', 'CAS.a.1, CT.b.4'],
+    ['Scrambled for Storage', 'Write a toy scrambling function and a sign-up and sign-in that never store the password itself.', 'CAS.a.1, CT.a.2'],
+    ['Crack the Caesar', 'Write the cipher, then the program that cracks any message by trying all 25 shifts and counting letters.', 'CS.c.3, CT.d.3, CT.d.4', 1],
+    ['Keys That Hold', 'Write a keyword cipher, count how many keys there are, and show why a longer key defeats last lesson\'s cracker.', 'CS.c.3, CT.d.1'],
+    ['The Phishing Detector', 'Write a detector that scores 20 pretend messages, then tune it so it misses fewer fakes without flagging real ones.', 'CAS.a.1, CAS.c.4, CT.d.6'],
+    ['How Malware Spreads', 'Change the spread and update rates in a simulation, graph what happens, and write a scanner that matches a known pattern.', 'CAS.a.1, CT.e.2, CT.e.3'],
+    ['Listening on the Wire', 'Read plain and scrambled packets on a pretend café Wi-Fi, then write firewall rules as a function that allows or blocks each packet.', 'CAS.a.1, CS.c.3'],
+    ['Case File', 'Five pretend systems, each opened with one technique from the course. Then write the report that tells the owner how to fix each one.', 'CAS.b.8, CAS.b.6, CT.b.3', 1],
+  ] },
+  { name: 'Grade 8: Build the Defence', about: 'Design and test defences. Students write whole functions, test them, and read code they did not write.', lessons: [
+    ['Rules of the Job', 'Read a pretend signed agreement and write the function that says whether a target is inside it. Write a first bug report. Security careers.', 'CAS.b.8, CAS.b.6, CAS.c.2'],
+    ['Build a Safe Sign-In', 'Write a sign-in with scrambled, salted passwords and a lockout. Run an attack program against it and read the results.', 'CAS.a.1, CT.d.4'],
+    ['Never Trust Input', 'Find the flaw in a pretend login that trusts whatever is typed, get past it, then fix it with input checks.', 'CAS.a.1, CT.b.5'],
+    ['Who Is Allowed?', 'A pretend grades page shows another student\'s record when one number changes. Write the permission check that stops it.', 'CAS.a.1, CAS.a.3, CT.b.2'],
+    ['Lock Down the Snack Shop', 'A pretend shop\'s code was written by an AI helper and has four flaws. Find them, fix them, and write the tests that prove each fix.', 'CT.d.6, CT.d.3, CT.d.5', 1],
+    ['Sharing a Key in Public', 'Agree a secret key with a partner while a listener watches, first with paint colors and then in code with small numbers. What the padlock means.', 'CS.c.3, CAS.a.1'],
+    ['Has It Been Changed?', 'Write a fingerprint function for files, detect which pretend file was altered, and check a signed software update.', 'CAS.a.1, CT.c.2'],
+    ['Firewall Designer', 'Write an ordered rule list that blocks by default, and test it against a set of packets until only the right ones pass.', 'CAS.a.1, CS.c.2, CT.b.5'],
+    ['Catch It in the Logs', 'Search a pretend server log, write the alert rules that catch the break-in, and put the response steps in order.', 'CAS.a.1, CT.c.4'],
+    ['Design and Defend', 'Design layered defences for the city\'s headquarters, run waves of pretend attacks against them, fix what gets through, and write the security plan.', 'CAS.a.1, CT.b.3, CT.d.3', 1],
+  ] },
+];
+const esc = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
+document.getElementById('grades').innerHTML = GRADES.map((g) => `
+  <div class="grade"><h3>${esc(g.name)}</h3><p class="soft">${esc(g.about)}</p>
+  <div class="tablewrap"><table><thead><tr><th>#</th><th>Lesson</th><th>What students build</th><th>Standards</th></tr></thead><tbody>
+  ${g.lessons.map((l, i) => `<tr${l[3] ? ' class="project"' : ''}><td>${i + 1}</td><td>${esc(l[0])}</td><td>${esc(l[1])}</td><td>${esc(l[2])}</td></tr>`).join('')}
+  </tbody></table></div></div>`).join('');
+</script>
