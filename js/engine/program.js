@@ -82,7 +82,8 @@ export function judge(step, code, result) {
       if (g.e !== undefined) return { label, ok: false, got: `Error: ${g.e}` };
       if (g.u) return { label, ok: false, got: 'nothing (undefined). Did you forget return?' };
       if (g.f) return { label, ok: false, got: 'a function. Did you forget the ( ) to call it?' };
-      return { label, ok: same(g.v, t.want), got: brief(g.v) };
+      // With a label written in plain words, the raw value would only confuse ("yours gave false").
+      return { label, ok: same(g.v, t.want), got: t.label ? '' : brief(g.v) };
     }
     if (t.says !== undefined) return { label, ok: out.some((l) => norm(l) === norm(t.says) || (t.loose && norm(l).includes(norm(t.says)))), got: '' };
     if (t.out) return { label, ok: out.length === t.out.length && t.out.every((l, i) => norm(l) === norm(out[i])), got: '' };

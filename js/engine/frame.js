@@ -1,6 +1,10 @@
-// Runs inside the sandbox frame (see sandbox.js): a frame with no access to the page around it, its storage or its sign-in.
+// Runs inside the sandbox frame: a frame with no access to the page around it, its storage or its sign-in.
 // Each run gets a brand-new worker, which is stopped when it finishes or takes too long.
-// The frame's own rule blocks every network request. As a second lock, the
+// This file is not loaded by address. sandbox.js reads its text and writes it into the frame, and
+// the browser runs it only because its exact fingerprint (a SHA-256 hash) is named in the site's
+// rule and in the frame's own. Change one character here and the fingerprint the server sends
+// changes with it. The frame's rule allows that one script and workers made from text, and
+// nothing else, so no request of any kind can be made from in here. As a second lock, the
 // network tools are also removed from the worker before the student's code starts.
 (function () {
   'use strict';

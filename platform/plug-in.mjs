@@ -62,9 +62,12 @@ await edit(['server', 'src', 'http.ts'], "'cipher-city': {", "  'maker-lab': { d
   + "  'cipher-city': { dir: path.join(ROOT, 'courses', 'cipher-city'), served: ['index.html', 'js', 'css'], csp: '' },\n");
 await edit(['server', 'src', 'http.ts'], "COURSES['cipher-city']!.csp", '\n/** The visitor\'s address.',
   "// Cipher City runs student code in a worker inside a locked-down frame (see its js/engine/sandbox.js).\n"
-  + "// Its pages load only this site's own files: no inline script, no eval, and nothing from anywhere else.\n"
-  + "COURSES['cipher-city']!.csp = `default-src 'self'; script-src 'self' blob:; worker-src blob:; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self'; ${COMMON_CSP}`;\n"
+  + "// Its pages load only this site's own files: no eval, nothing from anywhere else, and no inline script\n"
+  + "// except one, named by its exact fingerprint: the frame's runner, which is written into the frame as text.\n"
+  + "const CC_RUNNER = createHash('sha256').update(readFileSync(path.join(ROOT, 'courses', 'cipher-city', 'js', 'engine', 'frame.js'))).digest('base64');\n"
+  + "COURSES['cipher-city']!.csp = `default-src 'self'; script-src 'self' blob: 'sha256-${CC_RUNNER}'; worker-src blob:; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self'; ${COMMON_CSP}`;\n"
   + '\n/** The visitor\'s address.');
+await edit(['server', 'src', 'http.ts'], "from 'node:crypto'", "import path from 'node:path';\n", "import path from 'node:path';\nimport { readFileSync } from 'node:fs';\nimport { createHash } from 'node:crypto';\n");
 await edit(['package.json'], 'quickjs-emscripten', '    "pg": "^8.13.0"', '    "pg": "^8.13.0",\n    "quickjs-emscripten": "^0.31.0"');
 await edit(['package.json'], 'courses/cipher-city/tests', 'node --test courses/pixel-trail/tests/*.test.mjs"', 'node --test courses/pixel-trail/tests/*.test.mjs courses/cipher-city/tests/*.test.mjs"');
 await edit(['.github', 'workflows', 'ci.yml'], 'cipher-city', '          node e2e/maker-lab.mjs http://localhost:8080\n', '          node e2e/maker-lab.mjs http://localhost:8080\n          node courses/cipher-city/e2e/walk.mjs http://localhost:8080/cipher-city/ hosted\n');

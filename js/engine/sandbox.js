@@ -4,9 +4,31 @@ import { buildProgram, judge, parseReport, codeOffset } from './program.js';
 let frame = null, ready = null, seq = 0;
 const waiting = new Map();
 
+async function hashOf(text) {
+  const bytes = new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text)));
+  let s = '';
+  for (const b of bytes) s += String.fromCharCode(b);
+  return btoa(s);
+}
+
 function boot() {
   if (ready) return ready;
-  ready = new Promise((resolve) => {
+  ready = (async () => {
+    // The frame's page is written here, not loaded from an address, so the site can keep its rule
+    // that no page of its own may be shown inside a frame. The runner script goes inside it as
+    // text. The frame's rule names that script's fingerprint and nothing else: no addresses at
+    // all, not even this site's. So nothing in the frame, or in a worker it starts, can make a
+    // request of any kind.
+    const runner = await (await fetch(new URL('./frame.js', import.meta.url))).text();
+    if (runner.includes('</scr' + 'ipt')) throw new Error('The code runner could not be loaded.');
+    const rule = `default-src 'none'; script-src 'sha256-${await hashOf(runner)}' blob:; worker-src blob:`;
+    await start(`<!doctype html><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="${rule}"><title>Code runner</title><script>${runner}</scr` + `ipt>`);
+  })();
+  return ready;
+}
+
+function start(page) {
+  return new Promise((resolve) => {
     window.addEventListener('message', (e) => {
       if (!frame || e.source !== frame.contentWindow || !e.data) return;
       if (e.data.cc === 'ready') resolve();
@@ -19,16 +41,9 @@ function boot() {
     frame.setAttribute('tabindex', '-1');
     frame.title = 'Code runner';
     frame.style.cssText = 'position:absolute;width:0;height:0;border:0;visibility:hidden';
-    // The frame's page is written here, not loaded from an address, so the site can keep its rule that
-    // no page of its own may be shown inside a frame. The frame's own rule is stricter than the
-    // page's: it may load the runner script from this site and start a worker, and nothing else.
-    // No network requests, no images, no forms, no frames.
-    const runner = new URL('./frame.js', import.meta.url).href;
-    const rule = `default-src 'none'; script-src ${new URL(runner).origin} blob:; worker-src blob:`;
-    frame.srcdoc = `<!doctype html><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="${rule}"><title>Code runner</title><script src="${runner}"></scr` + `ipt>`;
+    frame.srcdoc = page;
     document.body.append(frame);
   });
-  return ready;
 }
 
 /** The line of the student's code an error points at, or 0 if it cannot be told. */

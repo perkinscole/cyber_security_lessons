@@ -120,7 +120,7 @@ async function teacher() {
   await page.getByRole('button', { name: 'Teacher', exact: true }).click();
   const codes = {};
   if (hosted) {
-    await page.getByRole('button', { name: /I am new/ }).click();
+    await page.getByRole('button', { name: /create a teacher account/ }).click();
     await page.locator('[name="tname"]').fill('Ms Rivera');
     await page.locator('[name="email"]').fill(`walk${Date.now()}@school.example`);
     await page.locator('[name="password"]').fill('made-up-password-for-the-walk');

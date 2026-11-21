@@ -69,7 +69,7 @@ export function viewLogin(root, render) {
       }
     }
   };
-  const tabs = [['join', 'I am new'], ['back', 'I have a username'], ['teacher', 'Teacher']];
+  const tabs = [['join', 'New student'], ['back', 'Returning student'], ['teacher', 'Teacher']];
   const tabRow = h('div.tabs');
   const drawTabs = () => add(clear(tabRow), tabs.map(([id, label]) => h('button.btn', { 'aria-pressed': tab === id ? 'true' : 'false', onclick: () => { tab = id; drawTabs(); draw(); } }, label)));
   drawTabs(); draw();

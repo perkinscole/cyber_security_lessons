@@ -84,7 +84,7 @@ export async function viewLesson(main, id) {
       if (!rec()?.done) { refuse(e.currentTarget, isCode(step) ? 'Press Run until every check has a ✓.' : 'Finish this step first.', body.querySelector('.lab, .term')); return; }
       if (stepAt < lesson.steps.length - 1) { stepAt++; draw(); } else { stage = stageOf(lesson, work) === 'build' ? 'build' : 'quiz'; if (stage === 'build') stepAt = lesson.steps.findIndex((s) => !work.steps?.[s.id]?.done); draw(); }
     } }, stepAt < lesson.steps.length - 1 ? 'Next step' : 'Go to the quick check');
-    const showDone = () => { if (rec()?.done) { clear(status).append(h('div.okbox', h('strong', 'Step done. '), 'Nice work.')); nextBtn.dataset.nudge = 'Go on to the next part'; } };
+    const showDone = () => { if (rec()?.done) { clear(status).append(h('div.okbox', h('strong', 'Step done. '), 'Nice work.')); nextBtn.dataset.nudge = 'Go on to the next part'; const gn = nextBtn.closest('.gate')?.querySelector('.gate-note'); if (gn) { gn.textContent = ''; gn.classList.remove('bad'); } } };
     const check = async (answer, from) => {
       const was = rec()?.done;
       const out = await save(() => store.checkStep(id, step.id, answer, step), from);
