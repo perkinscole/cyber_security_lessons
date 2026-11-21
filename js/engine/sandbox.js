@@ -19,7 +19,13 @@ function boot() {
     frame.setAttribute('tabindex', '-1');
     frame.title = 'Code runner';
     frame.style.cssText = 'position:absolute;width:0;height:0;border:0;visibility:hidden';
-    frame.src = new URL('../../sandbox.html', import.meta.url).href;
+    // The frame's page is written here, not loaded from an address, so the site can keep its rule that
+    // no page of its own may be shown inside a frame. The frame's own rule is stricter than the
+    // page's: it may load the runner script from this site and start a worker, and nothing else.
+    // No network requests, no images, no forms, no frames.
+    const runner = new URL('./frame.js', import.meta.url).href;
+    const rule = `default-src 'none'; script-src ${new URL(runner).origin} blob:; worker-src blob:`;
+    frame.srcdoc = `<!doctype html><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="${rule}"><title>Code runner</title><script src="${runner}"></scr` + `ipt>`;
     document.body.append(frame);
   });
   return ready;

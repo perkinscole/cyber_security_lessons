@@ -1,6 +1,6 @@
-// Runs inside sandbox.html, a frame with no access to the page around it, its storage or its sign-in.
+// Runs inside the sandbox frame (see sandbox.js): a frame with no access to the page around it, its storage or its sign-in.
 // Each run gets a brand-new worker, which is stopped when it finishes or takes too long.
-// The frame's own rule (see sandbox.html) blocks every network request. As a second lock, the
+// The frame's own rule blocks every network request. As a second lock, the
 // network tools are also removed from the worker before the student's code starts.
 (function () {
   'use strict';

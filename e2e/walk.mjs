@@ -139,10 +139,10 @@ async function teacher() {
   return { page, codes };
 }
 
-async function teacherPages(page) {
+async function teacherPages(page, codes) {
   await page.goto(`${base}#/`);
   await shot(page, 'teacher-classes');
-  await page.locator('[data-class]').first().click();
+  await page.locator(`[data-class="${codes[only[0]] || `DEMO${only[0]}`}"]`).click();
   await page.getByRole('heading', { name: 'Where everyone is' }).waitFor();
   const done = await page.locator('tr', { hasText: 'Walker T' }).locator('.grid-cell.done').count();
   if (done !== 10) problems.push(`progress grid shows ${done} finished lessons for the walker, expected 10`);
@@ -180,7 +180,7 @@ try {
   let t = hosted ? await teacher() : { codes: {} };
   for (const g of GRADES.filter((x) => only.includes(x.grade))) { console.log(`Grade ${g.grade}: ${g.name}`); await student(g, t.codes[g.grade]); }
   if (!hosted) t = await teacher();
-  await teacherPages(t.page);
+  await teacherPages(t.page, t.codes);
 } catch (e) { problems.push(`stopped: ${e.message.split('\n')[0]}`); }
 await browser.close();
 if (problems.length) { console.error(`\n${problems.length} problem(s):\n${[...new Set(problems)].slice(0, 30).join('\n')}`); process.exit(1); }
