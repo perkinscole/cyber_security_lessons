@@ -9,12 +9,13 @@
 //   server/src/courses/cipher-city-worker.mjs     and the separate thread it runs on
 //   server/sql/011_cipher_city.sql                the course's own tables (cc_*)
 //   server/test/cipher-city.test.ts               tests against a real database
-// Edited, one or two lines each:
+// Edited, a line or a short block each:
 //   server/src/courses/names.ts                   the course's name
 //   server/src/courses/index.ts                   the course's module
 //   server/src/http.ts                            serve the pages, with their browser rule
 //   package.json                                  one package (quickjs-emscripten), and the course's tests
-//   .github/workflows/ci.yml                      the browser check that finishes all 30 lessons
+//   .github/workflows/ci.yml                      the browser checks: all 30 lessons, and the sandbox
+//   site/privacy.html, docs/compliance/data-schedule.md, docs/hosting.md     what the course keeps, and its address
 import { cp, mkdir, readFile, writeFile, rm } from 'node:fs/promises';
 import { execFileSync } from 'node:child_process';
 import path from 'node:path';
@@ -70,6 +71,18 @@ await edit(['server', 'src', 'http.ts'], "COURSES['cipher-city']!.csp", '\n/** T
 await edit(['server', 'src', 'http.ts'], "from 'node:crypto'", "import path from 'node:path';\n", "import path from 'node:path';\nimport { readFileSync } from 'node:fs';\nimport { createHash } from 'node:crypto';\n");
 await edit(['package.json'], 'quickjs-emscripten', '    "pg": "^8.13.0"', '    "pg": "^8.13.0",\n    "quickjs-emscripten": "^0.31.0"');
 await edit(['package.json'], 'courses/cipher-city/tests', 'node --test courses/pixel-trail/tests/*.test.mjs"', 'node --test courses/pixel-trail/tests/*.test.mjs courses/cipher-city/tests/*.test.mjs"');
-await edit(['.github', 'workflows', 'ci.yml'], 'cipher-city', '          node e2e/maker-lab.mjs http://localhost:8080\n', '          node e2e/maker-lab.mjs http://localhost:8080\n          node courses/cipher-city/e2e/walk.mjs http://localhost:8080/cipher-city/ hosted\n');
+await edit(['.github', 'workflows', 'ci.yml'], 'cipher-city', '          node e2e/maker-lab.mjs http://localhost:8080\n', '          node e2e/maker-lab.mjs http://localhost:8080\n          node courses/cipher-city/e2e/walk.mjs http://localhost:8080/cipher-city/ hosted\n          node courses/cipher-city/e2e/sandbox.mjs http://localhost:8080/cipher-city/\n');
+
+// 4. The privacy page and the data schedule say what this course keeps (see docs/PRIVACY.md).
+await edit(['site', 'privacy.html'], 'In Cipher City', '      <h2>Who else handles the data</h2>\n',
+  '      <h2>In Cipher City</h2>\n      <ul>\n'
+  + '        <li>Students write short programs. Their code is saved with their work so their teacher can read it.</li>\n'
+  + '        <li>To check a step, the code runs in the student\'s browser inside a locked box that cannot reach the internet, and again on our server inside a sealed engine with no network and no files. It is not sent anywhere else.</li>\n'
+  + '        <li>Every lock, sign-in, inbox and network in the lessons is pretend and is built into the lesson. Nothing in Cipher City contacts, scans or tests a real system.</li>\n'
+  + '        <li>Lessons use made-up passwords only. Students are told on screen never to type a real one.</li>\n'
+  + '      </ul>\n\n      <h2>Who else handles the data</h2>\n');
+await edit(['docs', 'compliance', 'data-schedule.md'], '**Cipher City.**', '## 6. Who else handles the data\n',
+  '**Cipher City.** Schoolwork is the code written in each step, a partner-talk note and a written reflection. Progress also includes how many tries each step took, the first answer to each quick-check question, and reward-game seconds used. A count of code runs in the current minute is kept to limit runaway programs. Student code is run in the browser in a frame with no network access, and again on the server in a sealed engine with no network or file access; it is sent to no other party. The course loads nothing from any other site and has no connection to another company.\n\n## 6. Who else handles the data\n');
+await edit(['docs', 'hosting.md'], '/cipher-city/', "| `/pixel-trail/` |", "| `/cipher-city/` | Cipher City (cybersecurity, grades 6 to 8). `/cipher-city/?demo` runs it with made-up data that stays in the browser. |\n| `/pixel-trail/` |");
 
 console.log(`Cipher City (${commit}) is plugged into ${target}.\nNext: npm install, then npm test.`);

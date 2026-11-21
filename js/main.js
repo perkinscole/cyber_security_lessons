@@ -51,24 +51,15 @@ const previewBanner = () => h('div.banner', h('strong', 'Student view.'), 'You a
   h('button.btn.small.primary', { onclick: async () => { const s = await attempt(() => store.previewEnd()); if (s) { app.session = s; go('/'); } } }, 'Back to the teacher desk'));
 
 let cleanup = null;
-// A lesson link opened while signed out is remembered, so sign-in lands on the lesson.
-const WANT = 'cipher-city:want';
 async function render() {
   const root = document.getElementById('app');
   cleanup?.(); cleanup = null;
   const hash = location.hash.slice(1) || '/';
-  if (!app.session) {
-    if (hash !== '/') { try { sessionStorage.setItem(WANT, hash); } catch (_) { /* fine */ } }
-    viewLogin(clear(root), render);
-    return;
-  }
-  let want = null;
-  try { want = sessionStorage.getItem(WANT); sessionStorage.removeItem(WANT); } catch (_) { /* fine */ }
-  if (want && want !== hash) {
-    const m = want.match(/^\/lesson\/(g(\d)-\d\d)$/);
-    // The right lesson for this student's grade: same number, their own course.
-    if (app.session.role === 'student' && m) { const mine = `g${app.session.class.grade}${m[1].slice(2)}`; if (getLesson(mine)) { go(`/lesson/${mine}`); return; } }
-  }
+  // A lesson link opened while signed out stays in the address, so sign-in lands on the lesson.
+  if (!app.session) { viewLogin(clear(root), render); return; }
+  // One link works for any class: a student is taken to the same lesson number in their own grade.
+  const other = app.session.role === 'student' && hash.match(/^\/lesson\/g(\d)(-\d\d)$/);
+  if (other && Number(other[1]) !== app.session.class.grade && getLesson(`g${app.session.class.grade}${other[2]}`)) { go(`/lesson/g${app.session.class.grade}${other[2]}`); return; }
   const main = h('main.page');
   const routes = app.session.role === 'student' ? STUDENT_ROUTES : TEACHER_ROUTES;
   add(clear(root), topbar(), app.session.preview && previewBanner(), main,

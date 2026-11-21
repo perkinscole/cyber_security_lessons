@@ -111,6 +111,10 @@ async function student(g, code) {
   await page.goto(`${base}#/me`);
   await page.getByRole('heading', { name: 'Sidekick bots' }).waitFor();
   await shot(page, `operator-grade${g.grade}`);
+  // The reward game: open in the sample classes, closed in a new class until the teacher opens it.
+  await page.goto(`${base}#/game`);
+  await page.getByRole('heading', { name: 'Night Shift' }).waitFor();
+  if (shared) { await page.locator('canvas').waitFor(); await page.keyboard.press('ArrowLeft'); await page.waitForTimeout(1200); } else await page.getByText('has not opened the game').waitFor();
   if (shared) { await page.getByRole('button', { name: 'Sign out' }).click(); await page.getByRole('button', { name: 'Join the crew' }).waitFor(); await page.close(); } else await page.context().close();
 }
 
